@@ -4,6 +4,8 @@ import (
 	"os"
 	"se-school/internal/config"
 	"testing"
+
+	"go.uber.org/zap"
 )
 
 const (
@@ -26,6 +28,7 @@ func TestGithubIntegration(t *testing.T) {
 }
 
 func setupGithubService() *GithubService {
+	zap.ReplaceGlobals(zap.Must(zap.NewDevelopment()))
 	ghConfig := &config.Github{
 		Token: os.Getenv("GITHUB_TOKEN"),
 	}
