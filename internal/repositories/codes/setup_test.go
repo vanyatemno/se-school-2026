@@ -11,7 +11,7 @@ import (
 )
 
 func TestServiceSetupCodeForConfirmation(t *testing.T) {
-	service := &Service{}
+	service := &Repository{}
 	code := &models.Code{Type: models.CodeTypeConfirmation}
 	before := time.Now()
 
@@ -32,7 +32,7 @@ func TestServiceSetupCodeForConfirmation(t *testing.T) {
 }
 
 func TestServiceSetupCodeForUnsubscribe(t *testing.T) {
-	service := &Service{}
+	service := &Repository{}
 	code := &models.Code{Type: models.CodeTypeUnsubscribe}
 	before := time.Now()
 
@@ -53,7 +53,7 @@ func TestServiceSetupCodeForUnsubscribe(t *testing.T) {
 }
 
 func TestServiceSetupCodeReturnsErrorForUnknownType(t *testing.T) {
-	service := &Service{}
+	service := &Repository{}
 	code := &models.Code{Type: "unknown"}
 
 	err := service.setupCode(code)
