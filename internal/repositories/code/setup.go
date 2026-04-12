@@ -27,7 +27,7 @@ func (r *Repository) setupCode(code *models.Code) error {
 
 func (r *Repository) setCodeExpiresAt(code *models.Code) error {
 	switch code.Type {
-	case models.CodeTypeConfirmation:
+	case models.CodeTypeConfirm:
 		code.ExpiresAt = time.Now().Add(time.Minute * 30)
 	case models.CodeTypeUnsubscribe:
 		code.ExpiresAt = time.Now().Add(time.Hour * 24 * 365 * 10)
@@ -40,7 +40,7 @@ func (r *Repository) setCodeExpiresAt(code *models.Code) error {
 
 func (r *Repository) generateCode(code *models.Code) error {
 	switch code.Type {
-	case models.CodeTypeConfirmation:
+	case models.CodeTypeConfirm:
 		generatedCode, err := utils.GenerateCode(confirmationCodeLength)
 		if err != nil {
 			return err

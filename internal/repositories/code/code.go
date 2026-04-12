@@ -27,13 +27,11 @@ func (r *Repository) Get(codeString string) (*models.Code, error) {
 }
 
 func (r *Repository) Create(
-	subscriptionID uint,
 	codeType models.CodeType,
 ) (*models.Code, error) {
 	code := models.Code{
-		SubscriptionID: subscriptionID,
-		Code:           "",
-		Type:           codeType,
+		Code: "",
+		Type: codeType,
 	}
 	err := r.setupCode(&code)
 	if err != nil {
