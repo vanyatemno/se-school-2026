@@ -11,13 +11,13 @@ import (
 
 const confirmationCodeLength = 6
 
-func (s *Service) setupCode(code *models.Code) error {
-	err := s.setCodeExpiresAt(code)
+func (r *Repository) setupCode(code *models.Code) error {
+	err := r.setCodeExpiresAt(code)
 	if err != nil {
 		return err
 	}
 
-	err = s.generateCode(code)
+	err = r.generateCode(code)
 	if err != nil {
 		return err
 	}
@@ -25,7 +25,7 @@ func (s *Service) setupCode(code *models.Code) error {
 	return nil
 }
 
-func (s *Service) setCodeExpiresAt(code *models.Code) error {
+func (r *Repository) setCodeExpiresAt(code *models.Code) error {
 	switch code.Type {
 	case models.CodeTypeConfirmation:
 		code.ExpiresAt = time.Now().Add(time.Minute * 30)
@@ -38,7 +38,7 @@ func (s *Service) setCodeExpiresAt(code *models.Code) error {
 	return nil
 }
 
-func (s *Service) generateCode(code *models.Code) error {
+func (r *Repository) generateCode(code *models.Code) error {
 	switch code.Type {
 	case models.CodeTypeConfirmation:
 		generatedCode, err := utils.GenerateCode(confirmationCodeLength)

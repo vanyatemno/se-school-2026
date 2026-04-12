@@ -6,19 +6,19 @@ import (
 	"gorm.io/gorm"
 )
 
-type Service struct {
+type Repository struct {
 	db *gorm.DB
 }
 
-func New(db *gorm.DB) *Service {
-	return &Service{
+func New(db *gorm.DB) *Repository {
+	return &Repository{
 		db: db,
 	}
 }
 
-func (s *Service) Get(codeString string) (*models.Code, error) {
+func (r *Repository) Get(codeString string) (*models.Code, error) {
 	var code models.Code
-	err := s.db.Where(&models.Code{Code: codeString}).First(&code).Error
+	err := r.db.Where(&models.Code{Code: codeString}).First(&code).Error
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +26,7 @@ func (s *Service) Get(codeString string) (*models.Code, error) {
 	return &code, nil
 }
 
-func (s *Service) Create(
+func (r *Repository) Create(
 	subscriptionID uint,
 	codeType models.CodeType,
 ) (*models.Code, error) {
@@ -35,12 +35,12 @@ func (s *Service) Create(
 		Code:           "",
 		Type:           codeType,
 	}
-	err := s.setupCode(&code)
+	err := r.setupCode(&code)
 	if err != nil {
 		return nil, err
 	}
 
-	err = s.db.Create(&code).Error
+	err = r.db.Create(&code).Error
 	if err != nil {
 		return nil, err
 	}
@@ -48,6 +48,6 @@ func (s *Service) Create(
 	return &code, nil
 }
 
-func (s *Service) Delete(id uint) error {
-	return s.db.Delete(&models.Code{}, id).Error
+func (r *Repository) Delete(id uint) error {
+	return r.db.Delete(&models.Code{}, id).Error
 }
