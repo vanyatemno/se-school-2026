@@ -92,20 +92,20 @@ paths:
     get:
       tags:
         - "subscription"
-      summary: "Get subscription for an email"
-      description: "Returns all active subscription for the given email address."
+      summary: "Get subscriptions for an email"
+      description: "Returns all active subscriptions for the given email address."
       operationId: "getSubscriptions"
       parameters:
         - name: "email"
           in: "query"
-          description: "Email address to look up subscription for"
+          description: "Email address to look up subscriptions for"
           required: true
           type: "string"
       produces:
         - "application/json"
       responses:
         "200":
-          description: "Successful operation - list of subscription returned"
+          description: "Successful operation - list of subscriptions returned"
           schema:
             type: "array"
             items:
