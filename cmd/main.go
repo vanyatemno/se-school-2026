@@ -81,7 +81,7 @@ func main() {
 
 	// Router
 	r := gin.Default()
-	controllers.RegisterRoutes(r, subscriptionController)
+	controllers.RegisterRoutes(r, subscriptionController, &cfg.Application)
 
 	port := cfg.Application.Port
 	if port == "" {
