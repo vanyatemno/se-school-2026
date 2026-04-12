@@ -19,7 +19,20 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
+
+	_ "se-school/docs/generated" // swagger docs
 )
+
+//	@title			GitHub Release Notification API
+//	@version		1.0.0
+//	@description	GitHub Release Notification API that allows users to subscribe to email notifications about new releases of a chosen GitHub repository.
+
+//	@BasePath	/api
+
+//	@securityDefinitions.apikey	ApiKeyAuth
+//	@in							header
+//	@name						X-API-Key
+//	@description				API key passed in the X-API-Key header
 
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
