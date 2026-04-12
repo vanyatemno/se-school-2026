@@ -1,4 +1,4 @@
-package subscriptions
+package subscription
 
 import "gorm.io/gorm"
 
