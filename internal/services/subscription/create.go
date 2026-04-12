@@ -17,49 +17,60 @@ func (s *Service) Create(
 	ctx context.Context,
 	req *dto.CreateSubscriptionRequest,
 ) error {
-	err := s.createNewSubscription(ctx, req)
+	sub, err := s.createNewSubscription(ctx, req)
 	if err != nil {
 		zap.L().Error("failed to init new subscription", zap.Error(err))
+		return err
 	}
-	err = s.createAndSendConfirmationCode(req.Email)
+	err = s.sendConfirmationCode(sub)
 	if err != nil {
 		zap.L().Error("failed to init new subscription", zap.Error(err))
+		return err
 	}
 
 	return nil
 }
 
-func (s *Service) createNewSubscription(ctx context.Context, req *dto.CreateSubscriptionRequest) error {
+func (s *Service) createNewSubscription(
+	ctx context.Context,
+	req *dto.CreateSubscriptionRequest,
+) (*models.Subscription, error) {
 	parsedRepoValues, err := parseRepoFields(req.Repo)
 	if err != nil {
 		zap.L().Error("failed to parse repo fields", zap.Error(err))
-		return err
+		return nil, err
 	}
 
 	repo, err := s.getOrCreateRepository(ctx, parsedRepoValues)
 	if err != nil {
-		zap.L().Error("failed to get or create repository", zap.Error(err))
+		return nil, err
 	}
 
 	unsubCode, err := s.codesRepository.Create(models.CodeTypeUnsubscribe)
 	if err != nil {
-		zap.L().Error("failed to create unsubscribe code", zap.Error(err))
-		return err
+		return nil, err
+	}
+	subCode, err := s.codesRepository.Create(models.CodeTypeConfirm)
+	if err != nil {
+		return nil, err
 	}
 
 	sub := &models.Subscription{
 		RepositoryID:      repo.ID,
 		UnsubscribeCodeID: unsubCode.ID,
+		SubscribeCode:     subCode,
 		Email:             req.Email,
 		LastSeenTag:       repo.Version,
 	}
 	err = s.subscriptionsRepository.Create(sub)
 	if err != nil {
 		zap.L().Error("failed to create subscription", zap.Error(err))
-		return err
+		return nil, err
 	}
+	sub.SubscribeCode = subCode
+	sub.UnsubscribeCode = unsubCode
 
-	return nil
+	return sub, nil
 }
 
 func parseRepoFields(repo string) (*parsedRepoValue, error) {
@@ -110,17 +121,12 @@ func (s *Service) createRepository(ctx context.Context, values *parsedRepoValue)
 	return repo, nil
 }
 
-func (s *Service) createAndSendConfirmationCode(email string) error {
-	subCode, err := s.codesRepository.Create(models.CodeTypeConfirm)
-	if err != nil {
-		return err
-	}
-
-	err = s.notificationService.SendEmail(
-		[]string{email},
+func (s *Service) sendConfirmationCode(sub *models.Subscription) error {
+	err := s.notificationService.SendEmail(
+		[]string{sub.Email},
 		templates.Confirmation,
 		templates.ConfirmEmailPayload{
-			Code: subCode.Code,
+			Code: sub.SubscribeCode.Code,
 		})
 	if err != nil {
 		return err

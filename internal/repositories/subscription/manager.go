@@ -20,6 +20,6 @@ func (r *Repository) Save(subscription *models.Subscription) error {
 	return r.db.Save(subscription).Error
 }
 
-func (r *Repository) Delete(id uint) error {
-	return r.db.Where("id = ?", id).Delete(&models.Subscription{}).Error
+func (r *Repository) Delete(subscription *models.Subscription) error {
+	return r.db.Delete(subscription).Error
 }

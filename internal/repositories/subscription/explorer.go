@@ -30,7 +30,11 @@ func (r *Repository) GetUnupdated(repositoryID uint, currentTag string) ([]*mode
 
 func (r *Repository) GetByEmail(email string) ([]*models.Subscription, error) {
 	var subscriptions []*models.Subscription
-	err := r.db.Where("email = ?", email).Find(&subscriptions).Error
+	err := r.db.
+		Preload("Repository").
+		Where("email = ?", email).
+		Find(&subscriptions).
+		Error
 	if err != nil {
 		return nil, err
 	}

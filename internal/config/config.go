@@ -8,7 +8,7 @@ type Config struct {
 }
 
 type Database struct {
-	DNS string `mapstructure:"DNS" json:"DNS" yaml:"DNS"`
+	DNS string `mapstructure:"DSN" json:"DSN" yaml:"DSN"`
 }
 
 type Application struct {

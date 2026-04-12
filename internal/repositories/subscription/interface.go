@@ -10,5 +10,5 @@ type SubscriptionsRepository interface {
 	Create(subscription *models.Subscription) error
 	UpdateLastSeenTag(id uint, tag string) error
 	Save(*models.Subscription) error
-	Delete(uint) error
+	Delete(subscription *models.Subscription) error
 }

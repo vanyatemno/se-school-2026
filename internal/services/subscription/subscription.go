@@ -21,11 +21,13 @@ func New(
 	repositoriesRepository repository.RepositoriesRepository,
 	codesRepository code.CodesRepository,
 	githubIntegration github.GithubIntegration,
+	notificationService notifications.NotificationsService,
 ) *Service {
 	return &Service{
 		subscriptionsRepository: subscriptionsRepository,
 		repositoriesRepository:  repositoriesRepository,
 		codesRepository:         codesRepository,
 		githubIntegration:       githubIntegration,
+		notificationService:     notificationService,
 	}
 }
