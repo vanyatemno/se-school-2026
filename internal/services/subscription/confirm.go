@@ -26,5 +26,10 @@ func (s *Service) Confirm(req *dto.ConfirmSubscriptionRequest) error {
 		return err
 	}
 
+	err = s.codesRepository.Delete(code.ID)
+	if err != nil {
+		zap.L().Error("failed to delete code", zap.Error(err))
+	}
+
 	return nil
 }

@@ -9,6 +9,7 @@ const (
 
 type ConfirmEmailPayload struct {
 	Code string
+	Link string
 }
 
 type RepositoryUpdateEmailPayload struct {

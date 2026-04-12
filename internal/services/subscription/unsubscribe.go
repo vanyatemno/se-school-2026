@@ -18,7 +18,7 @@ func (s *Service) Unsubscribe(req *dto.UnsubscribeRequest) error {
 		zap.L().Error("failed to find subscription", zap.Error(err))
 		return err
 	}
-	err = s.subscriptionsRepository.Delete(subscription.ID)
+	err = s.subscriptionsRepository.Delete(subscription)
 	if err != nil {
 		zap.L().Error("failed to delete subscription", zap.Error(err))
 		return err

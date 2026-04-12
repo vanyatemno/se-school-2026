@@ -14,10 +14,26 @@ func Connect(cfg *config.Database) (*gorm.DB, error) {
 		return nil, err
 	}
 
-	err = database.AutoMigrate(&models.Subscription{})
+	err = migrate(
+		database,
+		&models.Subscription{},
+		&models.Repository{},
+		&models.Code{},
+	)
 	if err != nil {
 		return nil, err
 	}
 
 	return database, nil
+}
+
+func migrate(db *gorm.DB, models ...models.MigratableModel) error {
+	for _, model := range models {
+		err := model.Migrate(db)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }

@@ -20,3 +20,7 @@ type Code struct {
 	Type      CodeType  `gorm:"text;not null;index" json:"type"`
 	ExpiresAt time.Time `gorm:"not null" json:"expires_at"`
 }
+
+func (c *Code) Migrate(db *gorm.DB) error {
+	return db.AutoMigrate(c)
+}
