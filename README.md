@@ -190,5 +190,4 @@ Interactive Swagger UI is available at **`/swagger/index.html`** when the server
 ## 4. Future improvements
 
 1. Switch to the external notifications provider.
-2. Add Github API responses caching with Redis.
-3. Add integrations tests.
+2. Add integrations tests.
