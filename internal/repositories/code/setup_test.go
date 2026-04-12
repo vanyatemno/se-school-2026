@@ -12,7 +12,7 @@ import (
 
 func TestServiceSetupCodeForConfirmation(t *testing.T) {
 	service := &Repository{}
-	code := &models.Code{Type: models.CodeTypeConfirmation}
+	code := &models.Code{Type: models.CodeTypeConfirm}
 	before := time.Now()
 
 	err := service.setupCode(code)
