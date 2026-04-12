@@ -24,3 +24,13 @@ func (r *Repository) Find(repo *models.Repository) (*models.Repository, error) {
 
 	return &repository, nil
 }
+
+func (r *Repository) GetAll() ([]*models.Repository, error) {
+	var repository []*models.Repository
+	err := r.db.Find(&repository).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return repository, nil
+}

@@ -3,7 +3,7 @@ package controllers
 import (
 	"errors"
 	"net/http"
-	"se-school/internal/db"
+	"se-school/internal/infrastructure/db"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/go-github/v84/github"

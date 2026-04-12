@@ -5,6 +5,7 @@ type Config struct {
 	Application Application `mapstructure:"SERVER" json:"SERVER" yaml:"SERVER"`
 	Github      Github      `mapstructure:"GITHUB" json:"GITHUB" yaml:"GITHUB"`
 	Mailer      Mailer      `mapstructure:"MAILER" json:"MAILER" yaml:"MAILER"`
+	Cron        Cron        `mapstructure:"CRON" json:"CRON" yaml:"CRON"`
 }
 
 type Database struct {
@@ -26,4 +27,8 @@ type Mailer struct {
 	From     string `mapstructure:"FROM" yaml:"FROM"`
 	SMTP     string `mapstructure:"SMTP" yaml:"SMTP"`
 	Password string `mapstructure:"PASSWORD" yaml:"PASSWORD"`
+}
+
+type Cron struct {
+	RepoCheckSchedule string `mapstructure:"REPO_CHECK_SCHEDULE" json:"REPO_CHECK_SCHEDULE" yaml:"REPO_CHECK_SCHEDULE" default:"0 * * * *"`
 }

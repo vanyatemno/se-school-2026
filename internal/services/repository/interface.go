@@ -1,6 +1,6 @@
 package repository
 
 type RepositoriesService interface {
-	UpdateRepository(id uint) error
-	UpdateAllRepositories() error
+	CheckRepoTagAndAlert(id uint) error
+	CheckAllReposTagAndAlert() error
 }

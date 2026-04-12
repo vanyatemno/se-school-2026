@@ -1,18 +1,20 @@
 package main
 
 import (
+	"context"
 	"log"
+	"se-school/internal/config"
+	"se-school/internal/controllers"
+	cronScheduler "se-school/internal/cron"
+	"se-school/internal/infrastructure/db"
+	"se-school/internal/integrations/github"
 	"se-school/internal/notifications"
 	"se-school/internal/notifications/mailer"
 	"se-school/internal/notifications/templates"
-
-	"se-school/internal/config"
-	"se-school/internal/controllers"
-	"se-school/internal/db"
-	"se-school/internal/integrations/github"
 	codeRepo "se-school/internal/repositories/code"
 	repoRepo "se-school/internal/repositories/repository"
 	subRepo "se-school/internal/repositories/subscription"
+	repositorySvc "se-school/internal/services/repository"
 	subscriptionSvc "se-school/internal/services/subscription"
 
 	"github.com/gin-gonic/gin"
@@ -20,6 +22,9 @@ import (
 )
 
 func main() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	logger, err := zap.NewProduction()
 	if err != nil {
 		log.Fatalf("failed to init logger: %v", err)
@@ -44,17 +49,32 @@ func main() {
 	// Integrations
 	githubIntegration := github.New(&cfg.Github)
 
+	// Notifications
+	notificationService := notifications.New(
+		mailer.NewMailerService(&cfg.Mailer),
+		templates.New(),
+	)
+
 	// Services
 	subscriptionService := subscriptionSvc.New(
 		subscriptionRepository,
 		repositoryRepository,
 		codeRepository,
 		githubIntegration,
-		notifications.New(
-			mailer.NewMailerService(&cfg.Mailer),
-			templates.New(),
-		),
+		notificationService,
 	)
+
+	repositoryService := repositorySvc.New(
+		repositoryRepository,
+		subscriptionRepository,
+		notificationService,
+		githubIntegration,
+	)
+
+	// Cron
+	cron := cronScheduler.New(ctx, &cfg.Cron, repositoryService)
+	cron.Start()
+	defer cron.Stop()
 
 	// Controllers
 	subscriptionController := controllers.NewSubscriptionController(subscriptionService)
