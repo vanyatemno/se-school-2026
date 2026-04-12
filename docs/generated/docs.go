@@ -189,7 +189,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/se-school_internal_models_dto.SubscriptionResponse"
+                                "$ref": "#/definitions/dto.SubscriptionResponse"
                             }
                         }
                     },
@@ -270,7 +270,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "se-school_internal_models_dto.SubscriptionResponse": {
+        "dto.SubscriptionResponse": {
             "type": "object",
             "properties": {
                 "confirmed": {

@@ -1,6 +1,6 @@
 basePath: /api
 definitions:
-  se-school_internal_models_dto.SubscriptionResponse:
+  dto.SubscriptionResponse:
     properties:
       confirmed:
         type: boolean
@@ -127,7 +127,7 @@ paths:
           description: Successful operation - list of subscriptions returned
           schema:
             items:
-              $ref: '#/definitions/se-school_internal_models_dto.SubscriptionResponse'
+              $ref: '#/definitions/dto.SubscriptionResponse'
             type: array
         "400":
           description: Invalid email

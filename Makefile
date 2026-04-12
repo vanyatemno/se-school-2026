@@ -10,3 +10,5 @@ lint: check-lint dependencies
 check-lint:
 	@which golangci-lint || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(GO_PATH)/bin latest
 
+swagger:
+	@swag init -g cmd/main.go -o docs/generated

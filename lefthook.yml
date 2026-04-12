@@ -3,3 +3,5 @@ pre-commit:
   jobs:
     - name: lint
       run: make lint
+    - name: swagger docs update
+      run: make swagger && git add docs/*

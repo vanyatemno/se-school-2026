@@ -26,6 +26,7 @@ go.work.sum
 # env file
 .env
 .idea/
+docs/source-swagger.yaml
 
 # System files
 .DS_Store
