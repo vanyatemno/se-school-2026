@@ -1,8 +1,13 @@
 # GitHub Release Notification API
 
-## 0. Project Overview
+## Project Overview
 
-A Go REST API that lets users subscribe to email notifications about new releases of any public GitHub repository. When a tracked repository publishes a new release, every confirmed subscriber receives an email with the update details.
+A Go REST API that lets users subscribe to email notifications about new releases of any public GitHub repository. 
+When a tracked repository publishes a new release, every confirmed subscriber receives an email with the update details.
+
+The app is hosted at AWS: [frontend](http://51.20.10.168:4173/),
+[backend](http://51.20.10.168:8080/swagger/index.html#/),
+(api key is `test-api-key`).
 
 **Core workflow:**
 
@@ -31,7 +36,7 @@ A Go REST API that lets users subscribe to email notifications about new release
 
 ---
 
-## 1. How to Run
+## How to Run
 
 ### Prerequisites
 
@@ -117,7 +122,7 @@ go run github.com/evilmartians/lefthook/v2 install
 
 ---
 
-## 2. Project Structure
+## Project Structure
 
 ```
 .
@@ -181,13 +186,13 @@ Every layer communicates through **Go interfaces**, making it straightforward to
 
 ---
 
-## 3. API Overview
+## API Overview
 
 All endpoints are served under the `/api` base path and require the `X-API-Key` header (unless `SERVER_API_KEY` is left empty).
 
 Interactive Swagger UI is available at **`/swagger/index.html`** when the server is running.
 
-## 4. Future improvements
+## Future improvements
 
 1. Switch to the external notifications provider.
 2. Add integrations tests.
